@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/InsureWave_EY/.vs/InsureWave_EY
+/InsureWave_EY/DataAccessLayer/bin/Debug/net5.0
+/InsureWave_EY/DataAccessLayer/obj
+/InsureWave_EY/RepoLayer/bin/Debug/net5.0
+/InsureWave_EY/RepoLayer/obj
+/InsureWave_EY/UILayer/bin/Debug/net5.0
+/InsureWave_EY/UILayer/obj
+/UILayer/.vs/UILayer
+/UILayer/bin/Debug/net5.0
+/UILayer/obj

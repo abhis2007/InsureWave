@@ -1,0 +1,46 @@
+﻿@model UILayer.Models.Login
+@{
+    ViewData["Title"] = "LoginPage";
+}
+
+<style>
+    body {
+        background-image: url("/wwwroot/NewFolder/LoginLogo.png");
+    }
+
+    label {
+        color: black;
+        float: left;
+    }
+</style>
+<h1>@ViewData["UId"]</h1>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div style="background-color:aquamarine" class="col-md-6 modal-open mt-2 text-center mr-1 ml-1 mb-3">
+        <h1 style="color:antiquewhite">Login</h1>
+        <hr />
+        <div style="background-color:aquamarine" class="alert-danger h3">@ViewBag.msg</div>
+        <form asp-action="LoginPage">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label">UserName</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RoleId" class="control-label">Role</label>
+                @Html.DropDownListFor(Model => Model.RoleId, (SelectList)ViewBag.RoleList, "--Select Role", new { @class = "form-control" })
+            </div>
+            <div class="form-group mb-4">
+                <input type="submit" value="Login" class="btn btn-primary btn-block btn-dark mt-1 mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+

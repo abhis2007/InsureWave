@@ -1,0 +1,68 @@
+﻿@model DataAccessLayer.Models.BrokerBuyer
+
+@{
+    ViewData["Title"] = "Broker";
+}
+
+<h1>Broker</h1>
+
+<h4>BrokerBuyer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-dark table-striped table-hover">
+            <thead class="bg-primary">
+                <tr>
+                    <th scope="col">BuyerId</th>
+                    <th scope="col">Asset</th>
+                    <th scope="col">Country</th>
+                    <th style="float:right" scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+@foreach (var item in ViewBag.AllAssetOfVessel)
+{
+                <tr>
+                    <form asp-action="Broker">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="BrokerId" class="form-control" value="@item.UserId" />
+                        </div>
+                        <td>@item.UserId</td>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="UserId" class="form-control" value="@item.UserId" />
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" asp-for="AssetId" class="form-control" value="@item.AssetId" />
+                            <span asp-validation-for="AssetId" class="text-danger"></span>
+                        </div>
+@foreach(var asset in ViewBag.AllAsset)
+{
+    @if (asset.AssetId == @item.AssetId)
+    {
+        <td>@asset.Name</td>
+        break;
+    }
+}
+@foreach(var asset in ViewBag.AllCountry)
+{
+    @if (asset.CountryId == @item.CountryId)
+    {
+        <td>@asset.CountryName</td>
+        break;
+    }
+}
+                        <div class="form-group">
+                            <input type="hidden" asp-for="PolicyStatus" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <td><input style="float:right" class="btn btn-success" type="submit" value="Provide Insurance" /></td>
+                        </div>
+                    </form>
+                </tr>
+}
+             </tbody>
+         </table>
+     </div>
+</div>

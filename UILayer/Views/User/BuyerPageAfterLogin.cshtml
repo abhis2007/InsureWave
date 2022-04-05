@@ -1,0 +1,72 @@
+﻿@model DataAccessLayer.Models.BuyerAssetVessel
+@using System.Web
+@{
+    ViewData["Title"] = "BuyerPageAfterLogin";
+}
+<h4>Add vessel for insurance</h4>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="BuyerPageAfterLogin">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="hidden" asp-for="UserId" class="form-control" />
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(asset => asset.AssetId, (SelectList)ViewBag.Assets, "--Choose Asset--", new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(country => country.CountryId, (SelectList)ViewBag.Countries, "--Select Asset Origin--", new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(request => request.RequestStatus, (SelectList)ViewBag.Requests, "--Is Insured--", new { @class = "form-control" })
+                        </td>
+                    </tr>
+                    <tr>
+
+                </tbody>
+            </table>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+        <hr />
+        <h2>Assets ready for insurance</h2>
+        <table class="table table-striped table-hover">
+            <thead class="bg-primary">
+                <tr>
+                    <th scope="col">BuyerId</th>
+                    <th scope="col">Asset</th>
+                    <th scope="col">Country</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var assets in ViewBag.AllAssetOfVessel)
+                {
+                    @if (assets.RequestStatus == 11)
+                    {
+                        <tr>
+                            <td>@assets.UserId</td>
+                            @foreach (var el in ViewBag.AllAsset)
+                            {
+                                @if (el.AssetId == @assets.AssetId)
+                                {
+                                    <td>@el.Name</td>
+                                }
+                            }
+                            @foreach (var el in ViewBag.AllCountry)
+                            {
+                                @if (el.CountryId == @assets.CountryId)
+                                {
+                                    <td>@el.CountryName</td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
