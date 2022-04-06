@@ -13,6 +13,7 @@ namespace RepoLayer
         public bool IsValid(string _uid,string _passwod);
         public List<Role> AllRole();
         public List<User> AllUser();
+        public List<Broker> AllBroker();
         public void AddBroker(Broker _brker);
         public List<Gender> AllGender();
         public User GetUserById(string UserId);
@@ -26,5 +27,13 @@ namespace RepoLayer
         public BuyerAssetVessel getAssetOfVesselById(int id);
         public void AddAssetInBrokerBuyer(BrokerBuyer asset);
         public void AddAssetInBuyerVessel(BuyerAssetVessel _asset);
+
+        public List<Request> AllRequest();
+
+        public void DeleteAssetVesselBId(int id);
+
+        public List<BrokerBuyer> AllAssetOfBrokerBuyer();
+
+        public void UpdateAssetOfBuyerByAId(int Aid,BuyerAssetVessel _asset);
     }
 }

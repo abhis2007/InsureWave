@@ -5,6 +5,7 @@ using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using UILayer.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace UILayer.Controllers
 {
@@ -65,7 +66,7 @@ namespace UILayer.Controllers
         {
             if (obj.IsValid(model.UserName, model.Password))
             {
-                TempData["UserId"] = model.UserName;
+                HttpContext.Session.SetString("UserName",model.UserName);
                 User _user= obj.GetUserById(model.UserName);
                 if (_user.RoleId == model.RoleId && model.RoleId == 1)return RedirectToAction("Broker");
                 if (_user.RoleId == model.RoleId && model.RoleId == 11)return RedirectToAction("BuyerPageAfterLogin");
@@ -77,59 +78,132 @@ namespace UILayer.Controllers
 
         public IActionResult BuyerPageAfterLogin()
         {
-            var AllAssets=obj.GetAssets();
-            ViewBag.Assets = new SelectList(AllAssets, "AssetId", "Name");
+            ViewBag.Assets = obj.GetAssets().ConvertAll(x => {
+                return new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.AssetId.ToString()
+                };
+            });
+            ViewBag.Countries = obj.GetCountries().ConvertAll(x => {
+                return new SelectListItem
+                {
+                    Text = x.CountryName,
+                    Value = x.CountryId.ToString()
+                };
+            });
+            ViewBag.Requests = obj.AllRequest().ConvertAll(x => {
+                return new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                };
+            });
 
-            var AllCountry = obj.GetCountries();
-            ViewBag.Countries = new SelectList(AllCountry, "CountryId", "CountryName");
-
-            var AllRequest= obj.GetReqests();
-            ViewBag.Requests = new SelectList(AllRequest, "Id", "Name");
-
-            ViewBag.AllAssetOfVessel = obj.AllVeselAssetsByuserId(Convert.ToString(TempData["UserId"]));
-
-            ViewBag.AllAsset = AllAssets;
-            ViewBag.AllCountry = AllCountry;
-            TempData["UserId"] = TempData["UserId"];
+            ViewBag.AllAssetOfVessel = obj.AllVeselAssetsByuserId(HttpContext.Session.GetString("UserName"));
+            ViewBag.AllAsset = obj.GetAssets();
+            ViewBag.AllCountry = obj.GetCountries();
             return View();
         }
 
         [HttpPost]
         public IActionResult BuyerPageAfterLogin(BuyerAssetVessel _val)
         {
-            _val.UserId =Convert.ToString(TempData["UserId"]);
-            obj.AddAssetInBuyerVessel(_val);
-            TempData["UserId"] = _val.UserId;
-
-            ViewBag.Assets = new SelectList(obj.GetAssets(), "AssetId", "Name");
-            ViewBag.Countries = new SelectList(obj.GetCountries(), "CountryId", "CountryName");
-            ViewBag.Requests = new SelectList(obj.GetReqests(), "Id", "Name");
+            _val.UserId =HttpContext.Session.GetString("UserName");
+            ViewBag.Assets = obj.GetAssets().ConvertAll(x=> {
+                return new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.AssetId.ToString()
+                };
+            });
+            ViewBag.Countries = obj.GetCountries().ConvertAll(x=>{
+                return new SelectListItem {
+                    Text=x.CountryName,
+                    Value=x.CountryId.ToString()
+                };
+            });
+            ViewBag.Requests = obj.AllRequest().ConvertAll(x=> {
+                return new SelectListItem {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                };
+            });
 
             ViewBag.AllAssetOfVessel = obj.AllVeselAssetsByuserId(_val.UserId);
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllCountry = obj.GetCountries();
-            return View();
+
+            BuyerAssetVessel ExistingAsset=obj.getAssetOfVesselById(_val.AssetId);
+            if (ExistingAsset != null)
+            {
+                obj.UpdateAssetOfBuyerByAId(_val.AssetId, _val);
+                return RedirectToAction("BuyerPageAfterLogin");
+            }
+            obj.AddAssetInBuyerVessel(_val);
+            return RedirectToAction("BuyerPageAfterLogin");
         }
-        
 
         public IActionResult Broker()
         {
             ViewBag.AllAssetOfVessel = obj.AllVesselAssets();
             ViewBag.AllAsset = obj.GetAssets();
+            ViewBag.AllBrokerBuyerAsset = obj.AllAssetOfBrokerBuyer();
             ViewBag.AllCountry = obj.GetCountries();
+            ViewBag.Requests= obj.AllRequest().ConvertAll(x=> {
+                return new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                };
+            });
             return View();
         }
 
         [HttpPost]
         public IActionResult Broker(BrokerBuyer model) {
+            model.BrokerId = obj.BrokerIdByUserId(HttpContext.Session.GetString("UserName"));
             model.PolicyStatus = 10;
-            model.BrokerId = obj.BrokerIdByUserId(model.UserId);
             obj.AddAssetInBrokerBuyer(model);
 
             ViewBag.AllAssetOfVessel = obj.AllVesselAssets();
             ViewBag.AllAsset = obj.GetAssets();
+            ViewBag.AllBrokerBuyerAsset = obj.AllAssetOfBrokerBuyer();
             ViewBag.AllCountry = obj.GetCountries();
+            ViewBag.Requests = obj.AllRequest().ConvertAll(x => {
+                return new SelectListItem()
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                };
+            });
             return View();
+        }
+
+        public IActionResult check()
+        {
+            List<Broker> b=obj.AllBroker();
+            
+            List<SelectListItem> item = b.ConvertAll(x=> {
+                return new SelectListItem()
+                {
+                    Text = x.BrokerId,
+                    Value = "hello"
+                };
+            });
+            ViewBag.BrokerId = item;
+            return View();
+        }
+
+        
+        public IActionResult RemoveFromBuyerInsList(int AID)
+        {
+            obj.DeleteAssetVesselBId(AID);
+            return RedirectToAction("BuyerPageAfterLogin");
+        }
+        public IActionResult SignOut()
+        {
+            return RedirectToAction("LoginPage");
         }
     }
 }

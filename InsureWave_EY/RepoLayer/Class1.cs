@@ -18,7 +18,9 @@ namespace RepoLayer
             db.BrokerBuyers.Add(asset);
             db.SaveChanges();
         }
-
+        public List<BrokerBuyer> AllAssetOfBrokerBuyer() {
+            return db.BrokerBuyers.ToList();
+        }
         public void AddAssetInBuyerVessel(BuyerAssetVessel _Asset)
         {
             db.Add(_Asset);
@@ -102,6 +104,28 @@ namespace RepoLayer
             db.Add(_brker);
             db.SaveChanges();
         }
+        public List<Broker> AllBroker()
+        {
+            return db.Brokers.ToList();
+        }
 
+        public List<Request> AllRequest()
+        {
+            return db.Requests.ToList();
+        }
+
+        public void DeleteAssetVesselBId(int id)
+        {
+            db.Remove(getAssetOfVesselById(id));
+            db.SaveChanges();
+        }
+        public void UpdateAssetOfBuyerByAId(int Aid, BuyerAssetVessel _asset)
+        {
+            BuyerAssetVessel ExistingAsset=getAssetOfVesselById(Aid);
+            ExistingAsset.AssetId = _asset.AssetId;
+            ExistingAsset.CountryId = _asset.CountryId;
+            ExistingAsset.RequestStatus = _asset.RequestStatus;
+            db.SaveChanges();
+        }
     }
 }
