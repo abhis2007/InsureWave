@@ -25,15 +25,19 @@ namespace RepoLayer
         public List<Request> GetReqests();
         public List<BuyerAssetVessel> AllVesselAssets();
         public BuyerAssetVessel getAssetOfVesselById(int id);
+
+        public BuyerAssetVessel getAssetOfVesselByUserIdAssetId(string uid,int aid);
         public void AddAssetInBrokerBuyer(BrokerBuyer asset);
         public void AddAssetInBuyerVessel(BuyerAssetVessel _asset);
 
         public List<Request> AllRequest();
 
-        public void DeleteAssetVesselBId(int id);
+        public void DeleteAssetVesselBId(int id,string uid);
 
         public List<BrokerBuyer> AllAssetOfBrokerBuyer();
 
         public void UpdateAssetOfBuyerByAId(int Aid,BuyerAssetVessel _asset);
+
+
     }
 }

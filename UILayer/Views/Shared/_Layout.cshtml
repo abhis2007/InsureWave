@@ -6,36 +6,53 @@
     <title>@ViewData["Title"] - UILayer</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        span > a {
+            text-decoration: none;
+        }
+
+        .fa:hover {
+            /*do somethong on fab icon hover*/
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 mt-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UILayer</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fa fa-fw fa-home"></i>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
                         </li>
                     </ul>
                 </div>
-                <div style="float:right" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LoginPage">Login</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="LoginPage">
+                                <i class="fa fa-fw fa-sign-in"></i>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="CreateUser">SignUp</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="CreateUser">
+                                <i class="fa fa-fw fa-user"></i>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="SignOut">LogOut</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="SignOut">
+                                <i class="fa fa-fw fa-sign-out"></i>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -48,10 +65,14 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - UILayer - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top bg-dark footer text-muted">
+        <div class="container text-light">
+            &copy; 2022 -<a asp-controller="Home" asp-action="Index" class="text-light"> InsureWave </a>
+            <span class="float-right">
+                <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-light">Privacy Policy</a>
+            </span>
         </div>
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

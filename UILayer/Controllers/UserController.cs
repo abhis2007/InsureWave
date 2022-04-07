@@ -134,13 +134,14 @@ namespace UILayer.Controllers
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllCountry = obj.GetCountries();
 
-            BuyerAssetVessel ExistingAsset=obj.getAssetOfVesselById(_val.AssetId);
-            if (ExistingAsset != null)
+            BuyerAssetVessel ExistingAsset = obj.getAssetOfVesselByUserIdAssetId(_val.UserId,_val.AssetId);
+            
+            if (ExistingAsset == null)
             {
-                obj.UpdateAssetOfBuyerByAId(_val.AssetId, _val);
+                obj.AddAssetInBuyerVessel(_val);
                 return RedirectToAction("BuyerPageAfterLogin");
             }
-            obj.AddAssetInBuyerVessel(_val);
+            obj.UpdateAssetOfBuyerByAId(_val.AssetId, _val);
             return RedirectToAction("BuyerPageAfterLogin");
         }
 
@@ -179,7 +180,6 @@ namespace UILayer.Controllers
             });
             return View();
         }
-
         public IActionResult check()
         {
             List<Broker> b=obj.AllBroker();
@@ -196,9 +196,9 @@ namespace UILayer.Controllers
         }
 
         
-        public IActionResult RemoveFromBuyerInsList(int AID)
+        public IActionResult RemoveFromBuyerInsList(int AID,string UID)
         {
-            obj.DeleteAssetVesselBId(AID);
+            obj.DeleteAssetVesselBId(AID,UID);
             return RedirectToAction("BuyerPageAfterLogin");
         }
         public IActionResult SignOut()

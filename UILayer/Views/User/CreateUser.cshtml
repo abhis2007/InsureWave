@@ -4,66 +4,73 @@
     ViewData["Title"] = "CreateUser";
 }
 <style>
-    body {
-        background-image: url("/wwwroot/NewFolder/LoginLogo.png");
+    .input-container {
+        display: -ms-flexbox; 
+        display: flex;
+        width: 100%;
+        margin-bottom: 15px;
     }
-
-    label {
-        color:black;
-        float: left;
+    .icon {
+        padding: 10px;
+        background-color:dodgerblue;
+        min-width: 50px;
+        color:white;
+        text-align: center;
     }
 </style>
 <div class="row">
-    <div class="col-md-3"></div>
-    <div style="background-color:aquamarine" class="col-md-6 modal-open mt-2 text-center mr-1 ml-1 mb-3">
-        <h1 style="color:antiquewhite">New User</h1>
-        <hr />
-        <div style="background-color:aquamarine" class="alert-danger h3">@ViewBag.msg</div>
+    <div class="col-md-5 mt-5 pt-5 FirstSection">
+        <div style="color:darkgreen" class="text-center mt-5 pt-lg-5 pr-2 h5 text-capitalize"><h4>Insurewave |</h4> Hasslefree Insurance process for your asset<br>
+        We care your asset like you do.
+        </div>
+    </div>
+    <div class="mt-1">
+        <div><img src="~/Images/LoginBg.jpg"></div>
         <div class="alert-danger">@ViewBag.msg</div>
-        <form asp-action="CreateUser">
+        <form asp-action="CreateUser" class="mt-1 ml-1">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label">UserName</label>
-                <input asp-for="UserId" class="form-control" />
+            <div class="form-group input-container">
+                <i class="fa fa-faw fa-user-o icon"></i>
+                <input asp-for="UserId" class="form-control input-field" placeholder="Username"/>
                 <span asp-validation-for="UserId" class="text-danger">@ViewBag.IsValidId</span>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="FirstName" class="control-label">FirstName</label>
-                        <input asp-for="FirstName" class="form-control" />
+                    <div class="form-group input-container">
+                        <i class="fa fa-faw fa-user-circle-o icon"></i>
+                        <input asp-for="FirstName" class="form-control" placeholder="Firstname"/>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="LastName" class="control-label">LastName</label>
-                        <input asp-for="LastName" class="form-control" />
+                    <div class="form-group input-container">
+                        <i class="fa fa-faw fa-user-circle-o icon"></i>
+                        <input asp-for="LastName" class="form-control" placeholder="Lastname"/>
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <label asp-for="GenderId" class="control-label">Gender</label>
+            <div class="form-group input-container">
+                <i class="fa fa-faw fa-venus icon"></i>
                 @Html.DropDownListFor(Model => Model.GenderId, (SelectList)ViewBag.GenderList, "--Select Gender", new { @class = "form-control" })
+                <span asp-validation-for="GenderId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EmailId" class="control-label">EmailId</label>
-                <input asp-for="EmailId" class="form-control" />
+            <div class="form-group input-container">
+                <i class="fa fa-faw fa-envelope icon"></i>
+                <input asp-for="EmailId" class="form-control" placeholder="Emailid"/>
                 <span asp-validation-for="EmailId" class="text-danger">@ViewBag.IsValidMail</span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label">Password</label>
-                <input asp-for="Password" class="form-control" />
+            <div class="form-group input-container">
+                <i class="fa fa-faw fa-key icon"></i>
+                <input asp-for="Password" class="form-control" placeholder="Password"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="RoleId" class="control-label">Role</label>
+            <div class="form-group input-container">
+                <i class="fa fa-faw fa-user icon"></i>
                 @Html.DropDownListFor(Model => Model.RoleId, (SelectList)ViewBag.RoleList, "--Select Role", new { @class = "form-control" })
             </div>
             <div class="form-group ">
-                <input type="submit" value="Create" class="btn btn-primary btn-block btn-dark" />
+                <input type="submit" value="Signup" class="btn btn-primary btn-block btn-dark" />
             </div>
         </form>
     </div>

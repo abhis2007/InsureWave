@@ -58,6 +58,10 @@ namespace RepoLayer
             return db.BuyerAssetVessels.Where(x=>x.AssetId==id).FirstOrDefault();
         }
 
+        public BuyerAssetVessel getAssetOfVesselByUserIdAssetId(string _uid,int aid)
+        {
+            return db.BuyerAssetVessels.Where(x=>x.UserId==_uid && x.AssetId==aid).FirstOrDefault();
+        }
         public List<Asset> GetAssets()
         {
             return db.Assets.ToList();
@@ -114,9 +118,9 @@ namespace RepoLayer
             return db.Requests.ToList();
         }
 
-        public void DeleteAssetVesselBId(int id)
+        public void DeleteAssetVesselBId(int id,string uid)
         {
-            db.Remove(getAssetOfVesselById(id));
+            db.Remove(getAssetOfVesselByUserIdAssetId(uid,id));
             db.SaveChanges();
         }
         public void UpdateAssetOfBuyerByAId(int Aid, BuyerAssetVessel _asset)

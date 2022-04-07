@@ -21,9 +21,18 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <td><select asp-for="AssetId" asp-items="ViewBag.Assets" class="form-control"></select></td>
-                        <td><select asp-for="CountryId" asp-items="ViewBag.Countries" class="form-control"></select></td>
-                        <td><select asp-for="RequestStatus" asp-items="ViewBag.Requests" class="form-control"></select></td>
+                        <td>
+                            <select asp-for="AssetId" asp-items="ViewBag.Assets" class="form-control"></select>
+                            <span asp-validation-for="AssetId" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <select asp-for="CountryId" asp-items="ViewBag.Countries" class="form-control"></select>
+                            <span asp-validation-for="CountryId" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <select asp-for="RequestStatus" asp-items="ViewBag.Requests" class="form-control"></select>
+                            <span asp-validation-for="RequestStatus" class="text-danger"></span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -67,7 +76,7 @@
                                 <td>@el.CountryName</td>
                             }
                         }
-                        <td ><a asp-action="RemoveFromBuyerInsList" asp-route-AID="@assets.AssetId" class="btn btn-success">Remove</a></td>
+                        <td ><a asp-action="RemoveFromBuyerInsList" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-success">Remove</a></td>
                     </tr>
                 }
             }
