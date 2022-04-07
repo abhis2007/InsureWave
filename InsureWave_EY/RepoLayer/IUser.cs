@@ -36,7 +36,7 @@ namespace RepoLayer
 
         public List<BrokerBuyer> AllAssetOfBrokerBuyer();
 
-        public void UpdateAssetOfBuyerByAId(int Aid,BuyerAssetVessel _asset);
+        public void UpdateAssetOfBuyerByAIdUId(int Aid,string uid,BuyerAssetVessel _asset);
 
 
     }

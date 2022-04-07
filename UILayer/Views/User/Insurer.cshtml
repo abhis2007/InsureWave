@@ -1,0 +1,49 @@
+﻿@model IEnumerable<DataAccessLayer.Models.InsurerBroker>
+
+@{
+    ViewData["Title"] = "Insurer";
+}
+
+<h1>Insurer</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrokerageCharge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Broker)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Insurer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrokerageCharge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Broker.BrokerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Insurer.InsurerId)
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>

@@ -46,7 +46,7 @@ namespace UILayer.Controllers
                 return View();
             }
             obj.AddUser(_user);
-            if (_user.RoleId == 1)
+            if (_user.RoleId == 1) //Broker
             {
                 Broker broker = new Broker() { BrokerId = "BR_" + _user.UserId, UserId = _user.UserId };
                 obj.AddBroker(broker);
@@ -78,6 +78,8 @@ namespace UILayer.Controllers
 
         public IActionResult BuyerPageAfterLogin()
         {
+            string UserName = HttpContext.Session.GetString("UserName");
+            if (UserName == null) return RedirectToAction("LoginPage");
             ViewBag.Assets = obj.GetAssets().ConvertAll(x => {
                 return new SelectListItem()
                 {
@@ -100,7 +102,7 @@ namespace UILayer.Controllers
                 };
             });
 
-            ViewBag.AllAssetOfVessel = obj.AllVeselAssetsByuserId(HttpContext.Session.GetString("UserName"));
+            ViewBag.AllAssetOfVessel = obj.AllVeselAssetsByuserId(UserName);
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllCountry = obj.GetCountries();
             return View();
@@ -141,29 +143,26 @@ namespace UILayer.Controllers
                 obj.AddAssetInBuyerVessel(_val);
                 return RedirectToAction("BuyerPageAfterLogin");
             }
-            obj.UpdateAssetOfBuyerByAId(_val.AssetId, _val);
+            obj.UpdateAssetOfBuyerByAIdUId(_val.AssetId,_val.UserId, _val);
             return RedirectToAction("BuyerPageAfterLogin");
         }
 
         public IActionResult Broker()
         {
+            string UserName=HttpContext.Session.GetString("UserName");
+            if (UserName == null) return RedirectToAction("LoginPage");
             ViewBag.AllAssetOfVessel = obj.AllVesselAssets();
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllBrokerBuyerAsset = obj.AllAssetOfBrokerBuyer();
             ViewBag.AllCountry = obj.GetCountries();
-            ViewBag.Requests= obj.AllRequest().ConvertAll(x=> {
-                return new SelectListItem()
-                {
-                    Text = x.Name,
-                    Value = x.Id.ToString()
-                };
-            });
             return View();
         }
-
+        
         [HttpPost]
         public IActionResult Broker(BrokerBuyer model) {
-            model.BrokerId = obj.BrokerIdByUserId(HttpContext.Session.GetString("UserName"));
+            string UserName = obj.BrokerIdByUserId(HttpContext.Session.GetString("UserName"));
+            if (UserName == null) return RedirectToAction("LoginPage");
+            model.BrokerId = UserName;
             model.PolicyStatus = 10;
             obj.AddAssetInBrokerBuyer(model);
 
@@ -171,39 +170,31 @@ namespace UILayer.Controllers
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllBrokerBuyerAsset = obj.AllAssetOfBrokerBuyer();
             ViewBag.AllCountry = obj.GetCountries();
-            ViewBag.Requests = obj.AllRequest().ConvertAll(x => {
-                return new SelectListItem()
-                {
-                    Text = x.Name,
-                    Value = x.Id.ToString()
-                };
-            });
             return View();
         }
-        public IActionResult check()
-        {
-            List<Broker> b=obj.AllBroker();
-            
-            List<SelectListItem> item = b.ConvertAll(x=> {
-                return new SelectListItem()
-                {
-                    Text = x.BrokerId,
-                    Value = "hello"
-                };
-            });
-            ViewBag.BrokerId = item;
-            return View();
-        }
-
         
         public IActionResult RemoveFromBuyerInsList(int AID,string UID)
         {
+            string UserName = HttpContext.Session.GetString("UserName");
+            if (UserName == null) return RedirectToAction("LoginPage");
             obj.DeleteAssetVesselBId(AID,UID);
             return RedirectToAction("BuyerPageAfterLogin");
         }
+        
+        public IActionResult Insurer()
+        {
+
+            return View();
+        }
+        
         public IActionResult SignOut()
         {
+            string UserName = HttpContext.Session.GetString("UserName");
+            if(UserName!=null)HttpContext.Session.SetString("UserName","null");
+            HttpContext.Session.Clear();
             return RedirectToAction("LoginPage");
         }
+
+
     }
 }

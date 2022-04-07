@@ -9,10 +9,9 @@
     td > input {
         opacity: 0;
     }
-
-        td > input:hover {
-            opacity: 1;
-        }
+    td > input:hover {
+        opacity: 1;
+    }
 </style>
 <div class="row container">
     <div class="col-md-12">
@@ -22,58 +21,45 @@
                     <th scope="col">BuyerId</th>
                     <th scope="col">Asset</th>
                     <th scope="col">Country</th>
-                    <th scope="col">Status</th>
-                    <th style="opacity:0" scope="col">Want?</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in ViewBag.AllAssetOfVessel)
-                {
-
-@if (item.RequestStatus == 11)
-{
-                    <tr>
+                 {
+                    @if (item.RequestStatus == 11)
+                     {
+                     <tr>
                         <form asp-action="Broker">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="form-group">
-                                <input type="hidden" asp-for="BrokerId" class="form-control" value="@item.UserId" />
-                            </div>
-                        <td>@item.UserId</td>
-                        <div class="form-group">
+                            <input type="hidden" asp-for="BrokerId" class="form-control" value="@item.UserId" />
+                            <td>@item.UserId</td>
                             <input type="hidden" asp-for="UserId" class="form-control" value="@item.UserId" />
-                            <span asp-validation-for="UserId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
                             <input type="hidden" asp-for="AssetId" class="form-control" value="@item.AssetId" />
-                            <span asp-validation-for="AssetId" class="text-danger"></span>
-                        </div>
-                        @foreach (var asset in ViewBag.AllAsset)
-                        {
-                            @if (asset.AssetId == @item.AssetId)
+                            @foreach (var asset in ViewBag.AllAsset)
                             {
-                                <td>@asset.Name</td>
-                                break;
+                                @if (asset.AssetId == @item.AssetId)
+                                {
+                                    <td>@asset.Name</td>
+                                    break;
+                                }
                             }
-                        }
-                        @foreach (var asset in ViewBag.AllCountry)
-                        {
-                            @if (asset.CountryId == @item.CountryId)
+                            @foreach (var asset in ViewBag.AllCountry)
                             {
-                                <td>@asset.CountryName</td>
-                                break;
+                                @if (asset.CountryId == @item.CountryId)
+                                {
+                                    <td>@asset.CountryName</td>
+                                    break;
+                                }
                             }
-                        }
-                        <div class="form-group">
-                        <td><select asp-for="PolicyStatus" class="form-control" asp-items="ViewBag.Requests"></select></td>
-        </div>
-        <div class="form-group">
-            <td><input style="float:right" class="btn btn-success" type="submit" value="Provide Insurance" /></td>
-        </div>
-        </form>
-        </tr>
-    }
-    }
+                            <input type="hidden" asp-for="PolicyStatus" class="form-control"/>
+                            <div class="form-group">
+                                <td><input style="float:right" class="btn btn-success" type="submit" value="Send to Insurer"/></td>
+                            </div>
+                        </form>
+                     </tr>
+                     }
+                 }
                 </tbody>
-                </table>
-            </div>
-            </div>
+         </table>
+    </div>
+</div>

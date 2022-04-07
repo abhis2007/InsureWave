@@ -123,10 +123,9 @@ namespace RepoLayer
             db.Remove(getAssetOfVesselByUserIdAssetId(uid,id));
             db.SaveChanges();
         }
-        public void UpdateAssetOfBuyerByAId(int Aid, BuyerAssetVessel _asset)
+        public void UpdateAssetOfBuyerByAIdUId(int Aid, string Uid,BuyerAssetVessel _asset)
         {
-            BuyerAssetVessel ExistingAsset=getAssetOfVesselById(Aid);
-            ExistingAsset.AssetId = _asset.AssetId;
+            BuyerAssetVessel ExistingAsset = getAssetOfVesselByUserIdAssetId(Uid,Aid);
             ExistingAsset.CountryId = _asset.CountryId;
             ExistingAsset.RequestStatus = _asset.RequestStatus;
             db.SaveChanges();
