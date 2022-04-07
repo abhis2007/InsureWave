@@ -51,6 +51,11 @@ namespace UILayer.Controllers
                 Broker broker = new Broker() { BrokerId = "BR_" + _user.UserId, UserId = _user.UserId };
                 obj.AddBroker(broker);
             }
+            if (_user.RoleId == 6)
+            {
+                Insurer insurer = new Insurer() {InsurerId="IR_"+_user.UserId,UserId=_user.UserId };
+                obj.AddInsurer(insurer);
+            }
             return RedirectToAction("CreateUser");
         }
 
@@ -69,6 +74,7 @@ namespace UILayer.Controllers
                 HttpContext.Session.SetString("UserName",model.UserName);
                 User _user= obj.GetUserById(model.UserName);
                 if (_user.RoleId == model.RoleId && model.RoleId == 1)return RedirectToAction("Broker");
+                if (_user.RoleId == model.RoleId && model.RoleId == 6) return RedirectToAction("Insurer");
                 if (_user.RoleId == model.RoleId && model.RoleId == 11)return RedirectToAction("BuyerPageAfterLogin");
             }
             ViewBag.Msg = "Invalid attempt";
@@ -160,9 +166,8 @@ namespace UILayer.Controllers
         
         [HttpPost]
         public IActionResult Broker(BrokerBuyer model) {
-            string UserName = obj.BrokerIdByUserId(HttpContext.Session.GetString("UserName"));
-            if (UserName == null) return RedirectToAction("LoginPage");
-            model.BrokerId = UserName;
+            string brokerId = obj.BrokerIdByUserId(HttpContext.Session.GetString("UserName"));
+            model.BrokerId = brokerId;
             model.PolicyStatus = 10;
             obj.AddAssetInBrokerBuyer(model);
 
@@ -183,11 +188,13 @@ namespace UILayer.Controllers
         
         public IActionResult Insurer()
         {
-
+            string UserName = HttpContext.Session.GetString("UserName");
+            if (UserName == null) return RedirectToAction("LoginPage");
+            ViewBag.AllAssetOfBuyerBroker= obj.AllAssetOfBrokerBuyer();
             return View();
         }
         
-        public IActionResult SignOut()
+        public IActionResult Signout()
         {
             string UserName = HttpContext.Session.GetString("UserName");
             if(UserName!=null)HttpContext.Session.SetString("UserName","null");

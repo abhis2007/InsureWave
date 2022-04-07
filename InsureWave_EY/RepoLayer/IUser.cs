@@ -14,7 +14,8 @@ namespace RepoLayer
         public List<Role> AllRole();
         public List<User> AllUser();
         public List<Broker> AllBroker();
-        public void AddBroker(Broker _brker);
+        public void AddBroker(Broker _broker);
+        public void AddInsurer(Insurer _insurer);
         public List<Gender> AllGender();
         public User GetUserById(string UserId);
         public User GetUserByMail(string UserId);
@@ -35,6 +36,8 @@ namespace RepoLayer
         public void DeleteAssetVesselBId(int id,string uid);
 
         public List<BrokerBuyer> AllAssetOfBrokerBuyer();
+
+        public List<InsurerBroker> AllAssetOfInsurerBroker();
 
         public void UpdateAssetOfBuyerByAIdUId(int Aid,string uid,BuyerAssetVessel _asset);
 

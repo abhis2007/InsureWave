@@ -130,5 +130,16 @@ namespace RepoLayer
             ExistingAsset.RequestStatus = _asset.RequestStatus;
             db.SaveChanges();
         }
+
+        public void AddInsurer(Insurer _insurer)
+        {
+            db.Add(_insurer);
+            db.SaveChanges();
+        }
+
+        public List<InsurerBroker> AllAssetOfInsurerBroker()
+        {
+            return db.InsurerBrokers.ToList();
+        }
     }
 }
