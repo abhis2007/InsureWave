@@ -141,5 +141,26 @@ namespace RepoLayer
         {
             return db.InsurerBrokers.ToList();
         }
+        public BrokerBuyer GetAssetFromBrokerBuyerById(int AssetId)
+        {
+            return db.BrokerBuyers.Where(x=>x.AssetId==AssetId).FirstOrDefault();
+        }
+
+        public void AddIntoInsurerBroker(InsurerBroker _Instance)
+        {
+            db.Add(_Instance);
+            db.SaveChanges();
+        }
+
+        public InsurerBroker GetAssetFromInsuerBrokerByBuyerIdAssetId(string BuyerId, int AssetId)
+        {
+            return db.InsurerBrokers.Where(x=>x.BuyerId==BuyerId && x.AssetId==AssetId).FirstOrDefault();
+        }
+
+        public void AddInPolicy(PolicyDetail policy)
+        {
+            db.Add(policy);
+            db.SaveChanges();
+        }
     }
 }

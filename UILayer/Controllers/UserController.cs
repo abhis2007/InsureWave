@@ -195,6 +195,18 @@ namespace UILayer.Controllers
             ViewBag.AllUser = obj.AllUser();
             return View();
         }
+
+        public IActionResult AcceptByInsurer(int AId){
+            string UserName = HttpContext.Session.GetString("UserName");
+            BrokerBuyer ExistingAsset= obj.GetAssetFromBrokerBuyerById(AId);
+            
+            InsurerBroker InsurerBroker = new InsurerBroker() { BrokerId=ExistingAsset.BrokerId,InsurerId="IR_"+UserName,AssetId=AId,BrokerageCharge=10000,BuyerId=ExistingAsset.UserId};
+            obj.AddIntoInsurerBroker(InsurerBroker);
+            InsurerBroker ExistingAsset2 = obj.GetAssetFromInsuerBrokerByBuyerIdAssetId(ExistingAsset.UserId,AId);
+            PolicyDetail NewPolicy = new PolicyDetail(){Ibid=ExistingAsset2.Ibid,PolicyStatus="Accepting your proposal for "+AId+" and will forward you all the details regarding insurance",AssetId=AId};
+            obj.AddInPolicy(NewPolicy);
+            return RedirectToAction("Insurer");
+        }
         
         public IActionResult Signout()
         {
@@ -203,7 +215,6 @@ namespace UILayer.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("LoginPage");
         }
-
 
     }
 }

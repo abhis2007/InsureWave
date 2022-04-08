@@ -15,6 +15,7 @@ namespace DataAccessLayer.Models
         public int Ibid { get; set; }
         public string BrokerId { get; set; }
         public string InsurerId { get; set; }
+        public string BuyerId { get; set; }
         public int? AssetId { get; set; }
         public int? BrokerageCharge { get; set; }
 

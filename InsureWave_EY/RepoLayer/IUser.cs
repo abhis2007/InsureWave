@@ -40,7 +40,12 @@ namespace RepoLayer
         public List<InsurerBroker> AllAssetOfInsurerBroker();
 
         public void UpdateAssetOfBuyerByAIdUId(int Aid,string uid,BuyerAssetVessel _asset);
+        public BrokerBuyer GetAssetFromBrokerBuyerById(int AssetId);
 
+        public void AddIntoInsurerBroker(InsurerBroker _Instance);
 
+        public InsurerBroker GetAssetFromInsuerBrokerByBuyerIdAssetId(string BuyerId,int AssetId);
+
+        public void AddInPolicy(PolicyDetail policy);
     }
 }

@@ -231,13 +231,18 @@ namespace DataAccessLayer.Models
             modelBuilder.Entity<InsurerBroker>(entity =>
             {
                 entity.HasKey(e => e.Ibid)
-                    .HasName("PK__Insurer.__82350FD1B839B641");
+                    .HasName("PK__Insurer.__82350FD1D941A5FD");
 
                 entity.ToTable("Insurer.Broker");
 
                 entity.Property(e => e.Ibid).HasColumnName("IBID");
 
                 entity.Property(e => e.BrokerId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BuyerId)
+                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -248,18 +253,18 @@ namespace DataAccessLayer.Models
                 entity.HasOne(d => d.Broker)
                     .WithMany(p => p.InsurerBrokers)
                     .HasForeignKey(d => d.BrokerId)
-                    .HasConstraintName("FK__Insurer.B__Broke__69FBBC1F");
+                    .HasConstraintName("FK__Insurer.B__Broke__13F1F5EB");
 
                 entity.HasOne(d => d.Insurer)
                     .WithMany(p => p.InsurerBrokers)
                     .HasForeignKey(d => d.InsurerId)
-                    .HasConstraintName("FK__Insurer.B__Insur__6AEFE058");
+                    .HasConstraintName("FK__Insurer.B__Insur__14E61A24");
             });
 
             modelBuilder.Entity<PolicyDetail>(entity =>
             {
                 entity.HasKey(e => e.Pid)
-                    .HasName("PK__PolicyDe__C577554056B441C2");
+                    .HasName("PK__PolicyDe__C5775540B49E5AF7");
 
                 entity.Property(e => e.Pid).HasColumnName("PId");
 
@@ -272,13 +277,13 @@ namespace DataAccessLayer.Models
                 entity.HasOne(d => d.Ib)
                     .WithMany(p => p.PolicyDetails)
                     .HasForeignKey(d => d.Ibid)
-                    .HasConstraintName("FK__PolicyDeta__IBID__6DCC4D03");
+                    .HasConstraintName("FK__PolicyDeta__IBID__17C286CF");
             });
 
             modelBuilder.Entity<PremiumAmountDetail>(entity =>
             {
                 entity.HasKey(e => e.PremAmtId)
-                    .HasName("PK__PremiumA__38FAB2BDDA0314B6");
+                    .HasName("PK__PremiumA__38FAB2BDE6072C36");
 
                 entity.Property(e => e.PremAmtId).HasColumnName("PremAMtId");
 
@@ -310,7 +315,7 @@ namespace DataAccessLayer.Models
                 entity.HasOne(d => d.PidNavigation)
                     .WithMany(p => p.PremiumAmountDetails)
                     .HasForeignKey(d => d.Pid)
-                    .HasConstraintName("FK__PremiumAmou__PID__70A8B9AE");
+                    .HasConstraintName("FK__PremiumAmou__PID__1A9EF37A");
             });
 
             modelBuilder.Entity<Request>(entity =>
