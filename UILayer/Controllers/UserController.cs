@@ -191,6 +191,8 @@ namespace UILayer.Controllers
             string UserName = HttpContext.Session.GetString("UserName");
             if (UserName == null) return RedirectToAction("LoginPage");
             ViewBag.AllAssetOfBuyerBroker= obj.AllAssetOfBrokerBuyer();
+            ViewBag.AllAsset = obj.GetAssets();
+            ViewBag.AllUser = obj.AllUser();
             return View();
         }
         

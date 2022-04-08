@@ -3,37 +3,44 @@
 @{
     ViewData["Title"] = "Insurer";
 }
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AssetId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BrokerId)
-            </th>
-            
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in ViewBag.AllAssetOfBuyerBroker) {
-        <tr>
-            <td>
-                @item.UserId
-            </td>
-            <td>
-                @item.AssetId
-            </td>
-            <td>
-                @item.BrokerId
-            </td>
-           
-        </tr>
+<style>
+    .text {
+        display: block;
+        width: 100px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<div class="row">
+@foreach (var item in ViewBag.AllAssetOfBuyerBroker)
+{
+        <div class="col-md-4 col-lg-4 col-sm-6 mt-1 mb-1">
+            <div class="card" style="width:22rem;">
+                <div class="card-body">
+                    @foreach (var asset in ViewBag.AllAsset)
+                    {
+                        @if (asset.AssetId == item.AssetId)
+                        {
+                            <h4 class="card-title text-center text-capitalize">@asset.Name </h4>
+                            <h5 class="text text-capitalize">@asset.Type</h5>
+                            break;
+                        }
+                    }
+                    @foreach (var user in ViewBag.AllUser)
+                    {
+                        @if ("BR_" + user.UserId == item.BrokerId)
+                        {
+                            <p class="card-text">@user.FirstName @user.LastName</p>
+                            <p class="card-text">@user.EmailId</p>
+                        }
+                    }
+                    <div class="text-center">
+                        <a asp-action="Accept" asp-route-AID="@item.AssetId" class="card-link"><i style="color:darkgreen;font-size:25px" class="fa fa-fw fa-send"></i></a>
+                        <a asp-action="Reject" asp-route-AID="@item.AssetId" class="card-link"><i style="color:darkred;font-size:25px" class="fa fa-close"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
 }
-    </tbody>
-</table>
+</div>
