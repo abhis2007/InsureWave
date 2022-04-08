@@ -1,5 +1,6 @@
 # InsureWave
-Web application provides the paperless transaction between buyer, broker and insurer for taking insurance of assets available in buyer vessels.
+Web application which provides the paperless transaction between buyer, broker and insurer for taking insurance of assets available in buyer vessels.
+Insurer can make the decision to reject or accept the insurance proposal send by broker for a particular insurer.
 
   <h1>ER Diagram</h1>
 
