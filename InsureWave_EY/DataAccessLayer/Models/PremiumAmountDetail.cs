@@ -9,11 +9,11 @@ namespace DataAccessLayer.Models
     {
         public int PremAmtId { get; set; }
         public int? Pid { get; set; }
-        public string IntervalOfEmi { get; set; }
+        public int IntervalOfEmi { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
-        public int DownPay { get; set; }
-        public int PremAmt { get; set; }
+        public float DownPay { get; set; }
+        public float PremAmt { get; set; }
         public int Tenure { get; set; }
         public string PreType { get; set; }
 

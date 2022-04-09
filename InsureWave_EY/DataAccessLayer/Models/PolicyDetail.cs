@@ -13,6 +13,7 @@ namespace DataAccessLayer.Models
         }
 
         public int Pid { get; set; }
+        public string BuyerId { get; set; }
         public int? Ibid { get; set; }
         public string PolicyStatus { get; set; }
         public int AssetId { get; set; }

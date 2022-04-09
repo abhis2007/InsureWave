@@ -28,8 +28,9 @@ namespace UILayer.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateUser(User _user)
+        public IActionResult CreateUser(NewUser _NewUser)
         {
+            User _user = new User() { UserId=_NewUser.UserId,FirstName=_NewUser.FirstName,LastName=_NewUser.LastName,GenderId=_NewUser.GenderId,EmailId=_NewUser.EmailId,Password=_NewUser.Password};
             var RolesList = obj.AllRole();
             var GenList = obj.AllGender();
             ViewBag.RoleList = new SelectList(RolesList, "RoleId", "RoleName");
@@ -196,15 +197,27 @@ namespace UILayer.Controllers
             return View();
         }
 
-        public IActionResult AcceptByInsurer(int AId){
+        public IActionResult InsurerResponse(int AId,int Status){
             string UserName = HttpContext.Session.GetString("UserName");
             BrokerBuyer ExistingAsset= obj.GetAssetFromBrokerBuyerById(AId);
-            
-            InsurerBroker InsurerBroker = new InsurerBroker() { BrokerId=ExistingAsset.BrokerId,InsurerId="IR_"+UserName,AssetId=AId,BrokerageCharge=10000,BuyerId=ExistingAsset.UserId};
+            InsurerBroker InsurerBroker = new InsurerBroker() { BrokerId=ExistingAsset.BrokerId,InsurerId="IR_"+UserName,AssetId=AId,BrokerageCharge=10000,BuyerId=ExistingAsset.UserId,InsuranceTenure=ExistingAsset.InsuranceTenure};
             obj.AddIntoInsurerBroker(InsurerBroker);
             InsurerBroker ExistingAsset2 = obj.GetAssetFromInsuerBrokerByBuyerIdAssetId(ExistingAsset.UserId,AId);
-            PolicyDetail NewPolicy = new PolicyDetail(){Ibid=ExistingAsset2.Ibid,PolicyStatus="Accepting your proposal for "+AId+" and will forward you all the details regarding insurance",AssetId=AId};
+            string PolicyStatus;
+            if (Status == 1) PolicyStatus = "Accepting your proposal for " + AId + " and will forward you all the details regarding insurance";
+            else PolicyStatus = "Rejecting your proposal for asset: " + AId + " and will forward you all the details regarding rejection";
+            PolicyDetail NewPolicy = new PolicyDetail(){Ibid=ExistingAsset2.Ibid,PolicyStatus=PolicyStatus,AssetId=AId,BuyerId=ExistingAsset.UserId};
             obj.AddInPolicy(NewPolicy);
+            if (Status == 1)
+            {
+                PolicyDetail ExistingPolicy = obj.GetAssetIdFromPolicyDetailByBuyerIdAssetId(ExistingAsset.UserId, AId);
+                DateTime today = DateTime.Now;
+                string StartDate = today.ToLongDateString();
+                string EndDate = today.AddYears(InsurerBroker.InsuranceTenure).ToLongDateString();
+                int PremAmt = 150000;
+                PremiumAmountDetail premdetails = new PremiumAmountDetail() { Pid = ExistingPolicy.Pid, IntervalOfEmi = 6, StartDate = StartDate, EndDate = EndDate, DownPay = (float)(0.2 * PremAmt), PremAmt = PremAmt, Tenure = InsurerBroker.InsuranceTenure, PreType = "Default"};
+                obj.AddInPremiumAmountDetails(premdetails);
+            }
             return RedirectToAction("Insurer");
         }
         

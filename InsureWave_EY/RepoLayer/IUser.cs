@@ -47,5 +47,9 @@ namespace RepoLayer
         public InsurerBroker GetAssetFromInsuerBrokerByBuyerIdAssetId(string BuyerId,int AssetId);
 
         public void AddInPolicy(PolicyDetail policy);
+
+        public void AddInPremiumAmountDetails(PremiumAmountDetail _data);
+
+        public PolicyDetail GetAssetIdFromPolicyDetailByBuyerIdAssetId(string buyerid,int assetid);
     }
 }

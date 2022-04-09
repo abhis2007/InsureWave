@@ -20,6 +20,7 @@
                 <tr>
                     <th scope="col">BuyerId</th>
                     <th scope="col">Asset</th>
+                    <th scope="col">Tenure(Yrs.)</th>
                     <th scope="col">Country</th>
                     <th scope="col"></th>
                 </tr>
@@ -29,32 +30,33 @@
                  {
                     @if (item.RequestStatus == 11)
                      {
-                     <tr>
-                        <form asp-action="Broker">
-                            <input type="hidden" asp-for="BrokerId" class="form-control" value="@item.UserId" />
-                            <td>@item.UserId</td>
-                            <input type="hidden" asp-for="UserId" class="form-control" value="@item.UserId" />
-                            <input type="hidden" asp-for="AssetId" class="form-control" value="@item.AssetId" />
-                            @foreach (var asset in ViewBag.AllAsset)
-                            {
-                                @if (asset.AssetId == @item.AssetId)
-                                {
-                                    <td>@asset.Name</td>
-                                    break;
-                                }
-                            }
-                            @foreach (var asset in ViewBag.AllCountry)
-                            {
-                                @if (asset.CountryId == @item.CountryId)
-                                {
-                                    <td>@asset.CountryName</td>
-                                    break;
-                                }
-                            }
-                            <input type="hidden" asp-for="PolicyStatus" class="form-control"/>
-                            <div class="form-group">
-                                <td><input style="float:right" class="btn btn-success" type="submit" value="Send to Insurer"/></td>
-                            </div>
+                <tr>
+                    <form asp-action="Broker">
+                        <input type="hidden" asp-for="BrokerId" class="form-control" value="@item.UserId" />
+                    <td>@item.UserId</td>
+                    <input type="hidden" asp-for="UserId" class="form-control" value="@item.UserId" />
+                    <input type="hidden" asp-for="AssetId" class="form-control" value="@item.AssetId" />
+                    @foreach (var asset in ViewBag.AllAsset)
+                    {
+                        @if (asset.AssetId == @item.AssetId)
+                        {
+                            <td>@asset.Name</td>
+                            break;
+                        }
+                    }
+                    <td>@item.InsuranceTenure</td>
+                    @foreach (var asset in ViewBag.AllCountry)
+                    {
+                        @if (asset.CountryId == @item.CountryId)
+                        {
+                            <td>@asset.CountryName</td>
+                            break;
+                        }
+                    }
+                    <input type="hidden" asp-for="PolicyStatus" class="form-control" />
+                    <div class="form-group">
+                    <td><input style="float:right" class="btn btn-success" type="submit" value="Send to Insurer" /></td>
+</div>
                         </form>
                      </tr>
                      }

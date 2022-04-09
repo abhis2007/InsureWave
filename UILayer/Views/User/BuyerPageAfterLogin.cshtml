@@ -7,10 +7,10 @@
     td > a {
         opacity: 0;
     }
-    td > a:hover {
-        opacity: 1;
-     }
- 
+
+        td > a:hover {
+            opacity: 1;
+        }
 </style>
 <h4>Add assets for insurance</h4>
 <div class="row">
@@ -30,6 +30,10 @@
                             <span asp-validation-for="CountryId" class="text-danger"></span>
                         </td>
                         <td>
+                            <input type="number" asp-for="InsuranceTenure" class="form-control" placeholder="Insurance Tenure">
+                            <span asp-validation-for="InsuranceTenure" class="text-danger"></span>
+                        </td>
+                        <td>
                             <select asp-for="RequestStatus" asp-items="ViewBag.Requests" class="form-control"></select>
                             <span asp-validation-for="RequestStatus" class="text-danger"></span>
                         </td>
@@ -43,43 +47,50 @@
     </div>
 </div>
 
-<h2>Assets ready for insurance</h2>
-<div class="row">
-    <table class="table table-striped table-hover">
-        <thead class="bg-primary">
-            <tr>
-                <th scope="col">BuyerId</th>
-                <th scope="col">Asset</th>
-                <th scope="col">Country</th>
-                <th style="opacity:0" scope="col">Update</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var assets in ViewBag.AllAssetOfVessel)
-            {
-                @if (assets.RequestStatus == 11)
-                {
-                    <tr>
-                        <td>@assets.UserId</td>
-                        @foreach (var el in ViewBag.AllAsset)
+<div style="display:flex;justify-content:center"  class="row">
+    @foreach (var assets in ViewBag.AllAssetOfVessel)
+     {
+        @if (assets.RequestStatus == 11)
+         {
+            <div class="col-md-4 col-lg-4 col-sm-6 mt-1 mb-1">
+                <div style="color:white" class="card bg-info">
+                    @foreach (var elements in ViewBag.AllAsset)
+                    {
+                        @if (elements.AssetId == @assets.AssetId)
                         {
-                            @if (el.AssetId == @assets.AssetId)
-                            {
-                                <td>@el.Name</td>
-                            }
+                            <div class="card-header pl-2 text-capitalize h5">@elements.Name<br></div>
+                            ViewBag.type = @elements.Type;
                         }
-                        @foreach (var el in ViewBag.AllCountry)
+                    }
+                <div class="card-body">
+                    <div class="card-title text-monospace">Belongs from @ViewBag.type section</div>
+                    @if (assets.InsuranceTenure > 1)
+                    {
+                        <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
+                    }
+                    else
+                    {
+                        <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
+                    }
+                    @foreach (var el in ViewBag.AllCountry)
+                    {
+                        @if (el.CountryId == @assets.CountryId)
                         {
-                            @if (el.CountryId == @assets.CountryId)
-                            {
-                                <td>@el.CountryName</td>
-                            }
+                            <p class="text-monospace">Origin for insurance is @el.CountryName</p>
                         }
-                        <td ><a asp-action="RemoveFromBuyerInsList" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-success"><i class="fa fa-fw fa-sign-out"></i></a></td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+                    }
+                </div>
+                <div class="card-footer">
+                    <a asp-action="RemoveFromBuyerInsList" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-danger"><i class="fa fa-fw fa-close"></i></a>
+                    <span style="float:right;font-size:150%">
+                        <a class="btn btn-success"><i class="fa fa-fw fa-plus"></i></a>
+                    </span>
+                </div>
+                </div>
+            </div>
+         }
+     }
 </div>
+
+
+

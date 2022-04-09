@@ -162,5 +162,16 @@ namespace RepoLayer
             db.Add(policy);
             db.SaveChanges();
         }
+
+        public void AddInPremiumAmountDetails(PremiumAmountDetail _data)
+        {
+            db.Add(_data);
+            db.SaveChanges();
+        }
+
+        public PolicyDetail GetAssetIdFromPolicyDetailByBuyerIdAssetId(string buyerid, int assetid)
+        {
+            return db.PolicyDetails.Where(x=>x.BuyerId==buyerid && x.AssetId==assetid).FirstOrDefault();
+        }
     }
 }
