@@ -148,6 +148,8 @@ namespace UILayer.Controllers
             if (ExistingAsset == null)
             {
                 obj.AddAssetInBuyerVessel(_val);
+                Feedback f = new Feedback() { UserId = _val.UserId, AssetId = _val.AssetId,BuyerId=_val.UserId, Response = "Sent to broker_1" };
+                obj.AddInFeedback(f);
                 return RedirectToAction("BuyerPageAfterLogin");
             }
             obj.UpdateAssetOfBuyerByAIdUId(_val.AssetId,_val.UserId, _val);
@@ -171,7 +173,10 @@ namespace UILayer.Controllers
             model.BrokerId = brokerId;
             model.PolicyStatus = 10;
             obj.AddAssetInBrokerBuyer(model);
-
+            Feedback feedback = new Feedback() { UserId=brokerId.Split("_")[1],AssetId=model.AssetId,BuyerId=model.UserId,Response="Accepted by broker_1"};
+            obj.AddInFeedback(feedback);
+            Feedback feedback2 = new Feedback() { UserId = brokerId.Split("_")[1], AssetId = model.AssetId,BuyerId=model.UserId, Response = "Sent to insurer_1" };
+            obj.AddInFeedback(feedback2);
             ViewBag.AllAssetOfVessel = obj.AllVesselAssets();
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllBrokerBuyerAsset = obj.AllAssetOfBrokerBuyer();
@@ -227,6 +232,33 @@ namespace UILayer.Controllers
             if(UserName!=null)HttpContext.Session.SetString("UserName","null");
             HttpContext.Session.Clear();
             return RedirectToAction("LoginPage");
+        }
+
+        public IActionResult MoreDetail(int AId,string UID)
+        {
+            Asset assets= obj.GetAssetById(AId);
+            BrokerBuyer brokerbuyer= obj.GetAssetFromBrokerBuyerByBuyerIdAssetId(UID,AId);
+            string BrokerName=null,InsurerName=null;
+            if (brokerbuyer!=null)
+            {
+                User CurrentBroker = obj.GetUserById((brokerbuyer.BrokerId.Split("_"))[1]);
+                BrokerName= CurrentBroker.FirstName + " " + CurrentBroker.LastName;
+            }
+            InsurerBroker insurerbroker = obj.GetAssetFromInsuerBrokerByBuyerIdAssetId(UID, AId);
+            if (insurerbroker!=null)
+            {
+                User currentInsurer = obj.GetUserById((insurerbroker.BrokerId.Split("_"))[1]);
+                InsurerName = currentInsurer.FirstName + " " + currentInsurer.LastName;
+            }
+            Dictionary<string, string> temp = new Dictionary<string, string>();
+            List<Feedback> feedback=obj.GetFeedbackByUserIdAssetId(UID,AId);
+            foreach(var item in feedback)
+            {
+                string[] fd = item.Response.Split("_");
+                temp.Add(fd[0], fd[1]);
+            }
+            MoreDetail moredetails = new MoreDetail() { AssetName=assets.Name,AssetType=assets.Type,AssetInclusionDate="dummy",Broker=BrokerName,Insurer=InsurerName,status=temp};
+            return View(moredetails);
         }
 
     }

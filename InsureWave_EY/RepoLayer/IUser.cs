@@ -20,6 +20,7 @@ namespace RepoLayer
         public User GetUserById(string UserId);
         public User GetUserByMail(string UserId);
         public List<Asset> GetAssets();
+        public Asset GetAssetById(int id);
         public string BrokerIdByUserId(string _uid);
         public List<BuyerAssetVessel> AllVeselAssetsByuserId(string _s);
         public List<CountryCurrExchange> GetCountries();
@@ -30,6 +31,8 @@ namespace RepoLayer
         public BuyerAssetVessel getAssetOfVesselByUserIdAssetId(string uid,int aid);
         public void AddAssetInBrokerBuyer(BrokerBuyer asset);
         public void AddAssetInBuyerVessel(BuyerAssetVessel _asset);
+        public void AddInFeedback(Feedback f);
+        public List<Feedback> GetFeedbackByUserIdAssetId(string uid,int Aid);
 
         public List<Request> AllRequest();
 
@@ -51,5 +54,7 @@ namespace RepoLayer
         public void AddInPremiumAmountDetails(PremiumAmountDetail _data);
 
         public PolicyDetail GetAssetIdFromPolicyDetailByBuyerIdAssetId(string buyerid,int assetid);
+
+        public BrokerBuyer GetAssetFromBrokerBuyerByBuyerIdAssetId(string bid,int aid);
     }
 }

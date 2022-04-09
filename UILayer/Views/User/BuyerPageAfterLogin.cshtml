@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div style="display:flex;justify-content:center"  class="row">
+<div style="display:flex;justify-content:center" class="row">
     @foreach (var assets in ViewBag.AllAssetOfVessel)
      {
         @if (assets.RequestStatus == 11)
@@ -82,9 +82,8 @@
                 </div>
                 <div class="card-footer">
                     <a asp-action="RemoveFromBuyerInsList" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-danger"><i class="fa fa-fw fa-close"></i></a>
-                    <span style="float:right;font-size:150%">
-                        <a class="btn btn-success"><i class="fa fa-fw fa-plus"></i></a>
-                    </span>
+                    <a style="float:right" asp-action="MoreDetail" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-success"><i class="fa fa-fw fa-plus"></i></a>
+                    
                 </div>
                 </div>
             </div>

@@ -173,5 +173,26 @@ namespace RepoLayer
         {
             return db.PolicyDetails.Where(x=>x.BuyerId==buyerid && x.AssetId==assetid).FirstOrDefault();
         }
+
+        public BrokerBuyer GetAssetFromBrokerBuyerByBuyerIdAssetId(string bid, int aid)
+        {
+            return db.BrokerBuyers.Where(x=>x.UserId==bid && x.AssetId==aid).FirstOrDefault();
+        }
+
+        public Asset GetAssetById(int id)
+        {
+            return db.Assets.Where(x=>x.AssetId==id).FirstOrDefault();
+        }
+
+        public void AddInFeedback(Feedback f)
+        {
+            db.Add(f);
+            db.SaveChanges();
+        }
+
+        public List<Feedback> GetFeedbackByUserIdAssetId(string uid, int Aid)
+        {
+            return db.Feedbacks.Where(x=>x.BuyerId==uid && x.AssetId==Aid).ToList();
+        }
     }
 }

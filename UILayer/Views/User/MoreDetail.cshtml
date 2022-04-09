@@ -1,0 +1,59 @@
+﻿@model UILayer.Models.MoreDetail
+@{
+    ViewData["Title"] = "MoreDetail";
+}
+
+
+
+<div class="row">
+    <div class="offset-3"></div>
+    <div style="display:flex;justify-content:center" class="row container-fluid mt-5 pt-5">
+        <table>
+            <tr>
+                <td class="h4">Asset</td>
+                <td style="font-family: monospace; font-size: 20px">@Model.AssetName</td>
+            </tr>
+            <tr>
+                <td class="h4">Category</td>
+                <td style="font-family: monospace; font-size: 20px">@Model.AssetType</td>
+            </tr>
+            @if (Model.Broker != null)
+            {
+                <tr>
+                    <td class="h4">Broker</td>
+                    <td style="font-family: monospace; font-size: 20px">@Model.Broker</td>
+                </tr>
+            }
+            @if (Model.Insurer != null)
+            {
+                <tr>
+                    <td class="h4">Insurer</td>
+                    <td style="font-family: monospace; font-size: 20px">@Model.Insurer</td>
+                </tr>
+            }
+            <tr>
+                <td class="h4">Requuested on</td>
+                <td style="font-family: monospace; font-size: 20px">@Model.AssetInclusionDate</td>
+            </tr>
+            <tr>
+                <td class="pt-3">
+                    <ul>
+                        @foreach (var level in Model.status)
+                        {
+                            @if (level.Value=="1")
+                            {
+                                <li style="font-family:monospace;font-size:20px;color:green" class="pt-1">@level.Key <i class="fa fa-fw fa-check-circle"></i></li>
+                            }
+                            else
+                            {
+                                <li style="font-family:monospace;font-size:20px;color:red" class="pt-1">@level.Key <i class="fa fa-fw fa-check-circle"></i></li>
+                            }
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="offset-3"></div>
+</div>
+

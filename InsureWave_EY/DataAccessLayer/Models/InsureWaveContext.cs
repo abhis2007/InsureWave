@@ -32,7 +32,7 @@ namespace DataAccessLayer.Models
         public virtual DbSet<Request> Requests { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
-
+        public virtual DbSet<Feedback> Feedbacks { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -45,6 +45,24 @@ namespace DataAccessLayer.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<Feedback>(entity =>
+            {
+                entity.HasKey(e => e.Fid)
+                    .HasName("PK__Feedback__C1BEAA42C935D0C6");
+
+                entity.ToTable("Feedback");
+
+                entity.Property(e => e.Fid).HasColumnName("FId");
+
+                entity.Property(e => e.Response)
+                    .HasMaxLength(125)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<Asset>(entity =>
             {
@@ -385,6 +403,7 @@ namespace DataAccessLayer.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK__User__RoleId__151B244E");
+
             });
 
             OnModelCreatingPartial(modelBuilder);
