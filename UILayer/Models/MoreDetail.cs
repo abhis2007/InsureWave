@@ -12,6 +12,7 @@ namespace UILayer.Models
         public string AssetInclusionDate { get; set; }
         public string  Broker { get; set; }
         public string Insurer { get; set; }
-        public Dictionary<string,string> status { get; set; }
+        public string CountryName { get; set; }
+        public Dictionary<string,List<string>> status { get; set; }
     }
 }

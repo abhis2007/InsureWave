@@ -205,5 +205,20 @@ namespace RepoLayer
         {
             return db.Roles.Where(x => x.RoleName == role).FirstOrDefault();
         }
+
+        public void DeleteFeedbackByUserIdAssetId(string Uid, int Aid)
+        {
+            List<Feedback> f = GetFeedbackByUserIdAssetId(Uid,Aid);
+            foreach(var feed in f)
+            {
+                db.Remove(feed);
+                db.SaveChanges();
+            }
+        }
+
+        public CountryCurrExchange GetCountryByCoutryId(int id)
+        {
+            return db.CountryCurrExchanges.Where(x=>x.CountryId==id).FirstOrDefault();
+        }
     }
 }

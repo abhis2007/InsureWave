@@ -32,7 +32,11 @@
                 </tr>
             }
             <tr>
-                <td class="h4">Requuested on</td>
+                <td class="h4">Origin</td>
+                <td style="font-family: monospace; font-size: 20px">@Model.CountryName</td>
+            </tr>
+            <tr>
+                <td class="h4">Requested on</td>
                 <td style="font-family: monospace; font-size: 20px">@Model.AssetInclusionDate</td>
             </tr>
             <tr>
@@ -40,13 +44,16 @@
                     <ul>
                         @foreach (var level in Model.status)
                         {
-                            @if (level.Value=="1")
+                            @foreach (var msg in level.Value)
                             {
-                                <li style="font-family:monospace;font-size:20px;color:green" class="pt-1">@level.Key <i class="fa fa-fw fa-check-circle"></i></li>
-                            }
-                            else
-                            {
-                                <li style="font-family:monospace;font-size:20px;color:red" class="pt-1">@level.Key <i class="fa fa-fw fa-check-circle"></i></li>
+                                @if (msg == "1")
+                                {
+                                    <li style="font-family:monospace;font-size:20px;color:green" class="pt-1">@level.Key <i class="fa fa-fw fa-check-circle"></i></li>
+                                }
+                                else
+                                {
+                                    <li style="font-family:monospace;font-size:20px;color:red" class="pt-1">@level.Key <i class="fa fa-fw fa-check-circle"></i></li>
+                                }
                             }
                         }
                     </ul>

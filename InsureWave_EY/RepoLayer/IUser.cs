@@ -18,6 +18,7 @@ namespace RepoLayer
         public void AddInsurer(Insurer _insurer);
         public List<Gender> AllGender();
         public User GetUserById(string UserId);
+        public CountryCurrExchange GetCountryByCoutryId(int id);
         public User GetUserByMail(string UserId);
         public List<Asset> GetAssets();
         public Asset GetAssetById(int id);
@@ -60,5 +61,7 @@ namespace RepoLayer
         public List<User> GetAllUserFromRoleId(int RoleId);
 
         public Role GetRoleByRoleType(string role);
+
+        public void DeleteFeedbackByUserIdAssetId(string Uid, int Aid);
     }
 }
