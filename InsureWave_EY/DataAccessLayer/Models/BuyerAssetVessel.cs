@@ -11,6 +11,7 @@ namespace DataAccessLayer.Models
         public string UserId { get; set; }
         public int AssetId { get; set; }
         public int InsuranceTenure { get; set; }
+        public string BrokerId { get; set; }
         public int? CountryId { get; set; }
         public int? RequestStatus { get; set; }
 

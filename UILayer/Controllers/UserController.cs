@@ -30,10 +30,16 @@ namespace UILayer.Controllers
         [HttpPost]
         public IActionResult CreateUser(NewUser _NewUser)
         {
-            User _user = new User() { UserId=_NewUser.UserId,FirstName=_NewUser.FirstName,LastName=_NewUser.LastName,GenderId=_NewUser.GenderId,EmailId=_NewUser.EmailId,Password=_NewUser.Password};
+            User _user = new User() { UserId=_NewUser.UserId,FirstName=_NewUser.FirstName,LastName=_NewUser.LastName,GenderId=_NewUser.GenderId,EmailId=_NewUser.EmailId,Password=_NewUser.Password,RoleId=_NewUser.RoleId};
             var RolesList = obj.AllRole();
             var GenList = obj.AllGender();
-            ViewBag.RoleList = new SelectList(RolesList, "RoleId", "RoleName");
+            ViewBag.RoleList = obj.AllRole().ConvertAll(x=> {
+                return new SelectListItem
+                {
+                    Text=x.RoleName,
+                    Value=x.RoleId.ToString()
+                };
+            });
             ViewBag.GenderList = new SelectList(GenList, "GenderId", "GenderName");
             
             if (obj.GetUserById(_user.UserId) != null)
@@ -108,6 +114,13 @@ namespace UILayer.Controllers
                     Value = x.Id.ToString()
                 };
             });
+            ViewBag.AllBrokers = obj.GetAllUserFromRoleId(1).ConvertAll(x => {
+                return new SelectListItem
+                {
+                    Text = x.FirstName + " " + x.LastName + "(" + x.UserId + ")",
+                    Value = x.UserId.ToString()
+                };
+            });
 
             ViewBag.AllAssetOfVessel = obj.AllVeselAssetsByuserId(UserName);
             ViewBag.AllAsset = obj.GetAssets();
@@ -138,6 +151,13 @@ namespace UILayer.Controllers
                     Value = x.Id.ToString()
                 };
             });
+            ViewBag.AllBrokers = obj.GetAllUserFromRoleId(1).ConvertAll(x => {
+                return new SelectListItem
+                {
+                    Text = x.FirstName+" "+x.LastName+"("+x.UserId+")",
+                    Value = x.UserId.ToString()
+                };
+            });
 
             ViewBag.AllAssetOfVessel = obj.AllVeselAssetsByuserId(_val.UserId);
             ViewBag.AllAsset = obj.GetAssets();
@@ -164,6 +184,13 @@ namespace UILayer.Controllers
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllBrokerBuyerAsset = obj.AllAssetOfBrokerBuyer();
             ViewBag.AllCountry = obj.GetCountries();
+            ViewBag.AllInsurer = obj.GetAllUserFromRoleId(obj.GetRoleByRoleType("Insurer").RoleId).ConvertAll(x => {
+                return new SelectListItem
+                {
+                    Text = x.FirstName + " " + x.LastName + "(" + x.UserId + ")",
+                    Value = x.UserId.ToString()
+                };
+            });
             return View();
         }
         
@@ -181,6 +208,13 @@ namespace UILayer.Controllers
             ViewBag.AllAsset = obj.GetAssets();
             ViewBag.AllBrokerBuyerAsset = obj.AllAssetOfBrokerBuyer();
             ViewBag.AllCountry = obj.GetCountries();
+            ViewBag.AllInsurer = obj.GetAllUserFromRoleId(obj.GetRoleByRoleType("Insurer").RoleId).ConvertAll(x => {
+                return new SelectListItem
+                {
+                    Text = x.FirstName + " " + x.LastName + "(" + x.UserId + ")",
+                    Value = x.UserId.ToString()
+                };
+            });
             return View();
         }
         

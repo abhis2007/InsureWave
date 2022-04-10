@@ -128,6 +128,7 @@ namespace RepoLayer
             BuyerAssetVessel ExistingAsset = getAssetOfVesselByUserIdAssetId(Uid,Aid);
             ExistingAsset.CountryId = _asset.CountryId;
             ExistingAsset.RequestStatus = _asset.RequestStatus;
+            ExistingAsset.BrokerId = _asset.BrokerId;
             db.SaveChanges();
         }
 
@@ -193,6 +194,16 @@ namespace RepoLayer
         public List<Feedback> GetFeedbackByUserIdAssetId(string uid, int Aid)
         {
             return db.Feedbacks.Where(x=>x.BuyerId==uid && x.AssetId==Aid).ToList();
+        }
+
+        public List<User> GetAllUserFromRoleId(int RoleId)
+        {
+            return db.Users.Where(x => x.RoleId == RoleId).ToList();
+        }
+
+        public Role GetRoleByRoleType(string role)
+        {
+            return db.Roles.Where(x => x.RoleName == role).FirstOrDefault();
         }
     }
 }

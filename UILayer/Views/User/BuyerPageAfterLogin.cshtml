@@ -26,6 +26,10 @@
                             <span asp-validation-for="AssetId" class="text-danger"></span>
                         </td>
                         <td>
+                            <select asp-for="BrokerId" asp-items="ViewBag.AllBrokers" class="form-control"></select>
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </td>
+                        <td>
                             <select asp-for="CountryId" asp-items="ViewBag.Countries" class="form-control"></select>
                             <span asp-validation-for="CountryId" class="text-danger"></span>
                         </td>
@@ -49,9 +53,9 @@
 
 <div style="display:flex;justify-content:center" class="row">
     @foreach (var assets in ViewBag.AllAssetOfVessel)
-     {
-        @if (assets.RequestStatus == 11)
-         {
+    {
+        @if (assets.RequestStatus == 10)
+        {
             <div class="col-md-4 col-lg-4 col-sm-6 mt-1 mb-1">
                 <div style="color:white" class="card bg-info">
                     @foreach (var elements in ViewBag.AllAsset)
@@ -62,29 +66,67 @@
                             ViewBag.type = @elements.Type;
                         }
                     }
-                <div class="card-body">
-                    <div class="card-title text-monospace">Belongs from @ViewBag.type section</div>
-                    @if (assets.InsuranceTenure > 1)
-                    {
-                        <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
-                    }
-                    else
-                    {
-                        <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
-                    }
-                    @foreach (var el in ViewBag.AllCountry)
-                    {
-                        @if (el.CountryId == @assets.CountryId)
+                    <div class="card-body">
+                        <div class="card-title text-monospace">Belongs from @ViewBag.type section</div>
+                        @if (assets.InsuranceTenure > 1)
                         {
-                            <p class="text-monospace">Origin for insurance is @el.CountryName</p>
+                            <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
                         }
-                    }
+                        else
+                        {
+                            <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
+                        }
+                        @foreach (var el in ViewBag.AllCountry)
+                        {
+                            @if (el.CountryId == @assets.CountryId)
+                            {
+                                <p class="text-monospace">Origin for insurance is @el.CountryName</p>
+                            }
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="RemoveFromBuyerInsList" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-danger"><i class="fa fa-fw fa-close"></i></a>
+                        <a style="float:right" asp-action="MoreDetail" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-success"><i class="fa fa-fw fa-plus"></i></a>
+
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a asp-action="RemoveFromBuyerInsList" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-danger"><i class="fa fa-fw fa-close"></i></a>
-                    <a style="float:right" asp-action="MoreDetail" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-success"><i class="fa fa-fw fa-plus"></i></a>
-                    
-                </div>
+            </div>
+         }
+        @if (assets.RequestStatus == 11)
+         { 
+            <div class="col-md-4 col-lg-4 col-sm-6 mt-1 mb-1">
+                <div style="color:white" class="card bg-danger">
+                    @foreach (var elements in ViewBag.AllAsset)
+                     {
+                        @if (elements.AssetId == @assets.AssetId)
+                         {
+                            <div class="card-header pl-2 text-capitalize h5">@elements.Name<br></div>
+                            ViewBag.type = @elements.Type;
+                         }
+                     }
+                    <div class="card-body">
+                        <div class="card-title text-monospace">Belongs from @ViewBag.type section</div>
+                        @if (assets.InsuranceTenure > 1)
+                        {
+                            <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
+                        }
+                        else
+                        {
+                            <p class="card-text text-monospace">ask of insurance for @assets.InsuranceTenure years.</p>
+                        }
+                        @foreach (var el in ViewBag.AllCountry)
+                        {
+                            @if (el.CountryId == @assets.CountryId)
+                            {
+                                <p class="text-monospace">Origin for insurance is @el.CountryName</p>
+                            }
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="RemoveFromBuyerInsList" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-danger"><i class="fa fa-fw fa-close"></i></a>
+                        <span class="pl-2">Pending by your end.</span>
+                        <a style="float:right" asp-action="MoreDetail" asp-route-UID="@assets.UserId" asp-route-AID="@assets.AssetId" class="btn btn-success"><i class="fa fa-fw fa-plus"></i></a>
+                    </div>
                 </div>
             </div>
          }

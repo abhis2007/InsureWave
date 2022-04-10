@@ -56,5 +56,9 @@ namespace RepoLayer
         public PolicyDetail GetAssetIdFromPolicyDetailByBuyerIdAssetId(string buyerid,int assetid);
 
         public BrokerBuyer GetAssetFromBrokerBuyerByBuyerIdAssetId(string bid,int aid);
+
+        public List<User> GetAllUserFromRoleId(int RoleId);
+
+        public Role GetRoleByRoleType(string role);
     }
 }
