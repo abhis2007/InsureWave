@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -25,6 +26,14 @@ namespace UILayer.Models
         public int PremiumAmount { get; set; }
         [Required(ErrorMessage ="DownPay cant be blank")]
         public int DownPay { get; set; }
+        public string PremiumType { get; set; }
+
+        public List<SelectListItem> PremLists = new List<SelectListItem>() {
+            new SelectListItem{ Text="Without depriciation",Value="Dep_0"},
+            new SelectListItem{ Text="Depriciation of 10%",Value="Dep_10"},
+            new SelectListItem{ Text="Depriciation of 30%",Value="Dep_30"},
+            new SelectListItem{ Text="Depriciation of 50%",Value="Dep_50"}
+        };
 
     }
 }

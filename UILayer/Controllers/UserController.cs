@@ -373,7 +373,7 @@ namespace UILayer.Controllers
                 DownPay = _res.DownPay, 
                 PremAmt = _res.PremiumAmount, 
                 Tenure = ExistingAsset.InsuranceTenure, 
-                PreType = "Default" 
+                PreType = _res.PremiumType 
             };
             obj.AddInPremiumAmountDetails(premdetails);
             return View();
