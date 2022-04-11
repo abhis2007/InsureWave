@@ -72,6 +72,11 @@ namespace RepoLayer
             return db.BuyerAssetVessels.Where(x=>x.UserId==uid).ToList();
         }
 
+        public List<BuyerAssetVessel> AllVeselAssetsByBrokerId(string Brokerid)
+        {
+            return db.BuyerAssetVessels.Where(x => x.BrokerId == Brokerid).ToList();
+        }
+
         public List<CountryCurrExchange> GetCountries()
         {
             return db.CountryCurrExchanges.ToList();
@@ -219,6 +224,31 @@ namespace RepoLayer
         public CountryCurrExchange GetCountryByCoutryId(int id)
         {
             return db.CountryCurrExchanges.Where(x=>x.CountryId==id).FirstOrDefault();
+        }
+
+        public List<PolicyDetail> GetAllPolicy()
+        {
+            return db.PolicyDetails.ToList();
+        }
+        public PolicyDetail GetPolicyByAssetIdBuyerId(int Aid,string Bid)
+        {
+            return db.PolicyDetails.Where(x=>x.AssetId==Aid && x.BuyerId==Bid).FirstOrDefault();
+        }
+
+        public void DeleteFromBrokerBuyerByAssetIdBuyerId(int Aid, string BuyerId)
+        {
+            db.Remove(GetAssetFromBrokerBuyerByBuyerIdAssetId(BuyerId,Aid));
+            db.SaveChanges();
+        }
+
+        public List<BrokerBuyer> GetAllAssetFromBrokerBuyerByBuyerIdAssetId(string bid, int aid)
+        {
+            return db.BrokerBuyers.Where(x=>x.AssetId==aid && x.BrokerId==bid).ToList();
+        }
+
+        public List<BrokerBuyer> GetAssetFromBrokerBuyerByInsurerId(string _insId)
+        {
+            return db.BrokerBuyers.Where(x => x.InsurerId == _insId).ToList();
         }
     }
 }

@@ -26,6 +26,7 @@ namespace UILayer.Models
         public int PremiumAmount { get; set; }
         [Required(ErrorMessage ="DownPay cant be blank")]
         public int DownPay { get; set; }
+        public string CountryName { get; set; }
         public string PremiumType { get; set; }
 
         public List<SelectListItem> PremLists = new List<SelectListItem>() {

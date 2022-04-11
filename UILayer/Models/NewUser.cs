@@ -9,6 +9,7 @@ namespace UILayer.Models
     public class NewUser
     {
         [Required(ErrorMessage = "Seems you forgot to choose your unique userid")]
+        [Display(Name ="User ka naam")]
         public string UserId { get; set; }
         [Required(ErrorMessage = "First name please")]
         public string FirstName { get; set; }

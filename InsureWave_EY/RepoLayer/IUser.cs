@@ -24,6 +24,7 @@ namespace RepoLayer
         public Asset GetAssetById(int id);
         public string BrokerIdByUserId(string _uid);
         public List<BuyerAssetVessel> AllVeselAssetsByuserId(string _s);
+        public List<BuyerAssetVessel> AllVeselAssetsByBrokerId(string Brokerid);
         public List<CountryCurrExchange> GetCountries();
         public List<Request> GetReqests();
         public List<BuyerAssetVessel> AllVesselAssets();
@@ -45,23 +46,28 @@ namespace RepoLayer
 
         public void UpdateAssetOfBuyerByAIdUId(int Aid,string uid,BuyerAssetVessel _asset);
         public BrokerBuyer GetAssetFromBrokerBuyerById(int AssetId);
+        public List<BrokerBuyer> GetAssetFromBrokerBuyerByInsurerId(string _insId);
 
         public void AddIntoInsurerBroker(InsurerBroker _Instance);
 
         public InsurerBroker GetAssetFromInsuerBrokerByBuyerIdAssetId(string BuyerId,int AssetId);
 
         public void AddInPolicy(PolicyDetail policy);
+        public List<PolicyDetail> GetAllPolicy();
+        public PolicyDetail GetPolicyByAssetIdBuyerId(int Aid, string Bid);
 
         public void AddInPremiumAmountDetails(PremiumAmountDetail _data);
 
         public PolicyDetail GetAssetIdFromPolicyDetailByBuyerIdAssetId(string buyerid,int assetid);
 
         public BrokerBuyer GetAssetFromBrokerBuyerByBuyerIdAssetId(string bid,int aid);
+        public List<BrokerBuyer> GetAllAssetFromBrokerBuyerByBuyerIdAssetId(string bid, int aid);
 
         public List<User> GetAllUserFromRoleId(int RoleId);
 
         public Role GetRoleByRoleType(string role);
 
         public void DeleteFeedbackByUserIdAssetId(string Uid, int Aid);
+        public void DeleteFromBrokerBuyerByAssetIdBuyerId(int Aid,string BuyerId);
     }
 }

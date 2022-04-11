@@ -29,7 +29,7 @@
             <tbody>
                 @foreach (var item in ViewBag.AllAssetOfVessel)
                  {
-                    @if (item.RequestStatus == 11)
+                    @if (item.RequestStatus == 10)
                      {
                 <tr>
                     <form asp-action="Broker">
@@ -37,17 +37,18 @@
                     <td>@item.UserId</td>
                     <input type="hidden" asp-for="UserId" class="form-control" value="@item.UserId" />
                     <input type="hidden" asp-for="AssetId" class="form-control" value="@item.AssetId" />
+                    <input type="hidden" asp-for="InsuranceTenure" class="form-control" value="@item.InsuranceTenure" />
                     <td>
                         <select asp-for="InsurerId" asp-items="@ViewBag.AllInsurer" class="form-control"></select>
                     </td>
                     @foreach (var asset in ViewBag.AllAsset)
-                     {
+                    {
                         @if (asset.AssetId == @item.AssetId)
-                         {
+                        {
                             <td>@asset.Name</td>
                             break;
-                         }
-                     }
+                        }
+                    }
                     <td>@item.InsuranceTenure</td>
                     @foreach (var asset in ViewBag.AllCountry)
                     {
